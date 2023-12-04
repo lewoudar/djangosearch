@@ -4,6 +4,7 @@ from django.http import HttpRequest
 from django.shortcuts import render, get_object_or_404
 from django_htmx.middleware import HtmxDetails
 
+import structlog
 from djangosearch.starwars.models import Character
 from watson import search
 
@@ -15,6 +16,7 @@ class HtmxHttpRequest(HttpRequest):
 
 
 ITEMS_PER_PAGE = 10
+logger = structlog.get_logger(__name__)
 
 
 def get_page_obj(characters: QuerySet, page: str = '1') -> Page:
@@ -30,12 +32,15 @@ def list_characters(request: HtmxHttpRequest):
     context = {'characters': page_obj, 'user_search': user_search}
 
     if request.htmx:
+        logger.info('htmx_search', search=user_search, page=page)
         return render(request, 'starwars/list_characters.html#character-list', context)
 
+    logger.info('normal_search', search=user_search, page=page)
     return render(request, 'starwars/list_characters.html', context)
 
 
 def show_character(request: HtmxHttpRequest, pk: int):
     character = get_object_or_404(Character.objects.prefetch_related('movies'), pk=pk)
     movies = character.movies.all()
+    logger.info('show_character', name=character.name, number_of_movies=len(movies))
     return render(request, 'starwars/show_character.html', {'character': character, 'movies': movies})
