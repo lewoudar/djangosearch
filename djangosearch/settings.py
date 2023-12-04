@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import structlog
+from .config import Config
+
+config = Config()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-a-@e&bz!^&%d!slnzt$q@^f^t!0s1a@90q9l--$6*i8t*nx!pb'
+SECRET_KEY = config.secret_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config.debug
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config.allowed_hosts
 
 # Application definition
 
@@ -83,14 +86,20 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-        # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': 'starwars',
-        # 'USER': 'postgres',
-        # 'PASSWORD': 'supersecretpassword',
-        # 'HOST': 'localhost',
-        # 'PORT': '5432',
     }
 }
+
+if not config.debug:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': config.db_name,
+            'USER': config.db_user,
+            'PASSWORD': config.db_password,
+            'HOST': config.db_host,
+            'PORT': str(config.db_port),
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -132,34 +141,34 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "formatters": {
-        "json_formatter": {
-            "()": structlog.stdlib.ProcessorFormatter,
-            "processor": structlog.processors.JSONRenderer(),
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'json_formatter': {
+            '()': structlog.stdlib.ProcessorFormatter,
+            'processor': structlog.processors.JSONRenderer(),
         },
-        "plain_console": {
-            "()": structlog.stdlib.ProcessorFormatter,
-            "processor": structlog.dev.ConsoleRenderer(),
-        },
-    },
-    "handlers": {
-        "console": {
-            "class": "logging.StreamHandler",
-            "formatter": "plain_console",
+        'plain_console': {
+            '()': structlog.stdlib.ProcessorFormatter,
+            'processor': structlog.dev.ConsoleRenderer(),
         },
     },
-    "loggers": {
-        "django_structlog": {
-            "handlers": ["console"],
-            "level": "INFO",
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'plain_console',
         },
-        "djangosearch": {
-            "handlers": ["console"],
-            "level": "INFO",
+    },
+    'loggers': {
+        'django_structlog': {
+            'handlers': ['console'],
+            'level': 'INFO',
         },
-    }
+        'djangosearch': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+    },
 }
 
 structlog.configure(
