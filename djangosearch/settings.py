@@ -140,6 +140,10 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CSRF_COOKIE_SECURE = config.csrf_cookie_secure
+
+SESSION_COOKIE_SECURE = config.session_cookie_secure
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
