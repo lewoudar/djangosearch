@@ -1,0 +1,42 @@
+[tool.poetry]
+name = "djangosearch"
+version = "0.1.0"
+description = ""
+authors = ["le_woudar <rollandkev@yahoo.fr>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^4.2.7"
+django-watson = "^1.6.3"
+httpx = "^0.25.2"
+pydantic = "^2.5.2"
+psycopg = { version = "^3.1.13", extras = ["binary", "pool"] }
+django-htmx = "^1.17.2"
+django-template-partials = "^23.4"
+django-structlog = "^6.0.1"
+
+
+[tool.poetry.group.dev.dependencies]
+django-stubs = "^4.2.6"
+ruff = "^0.1.6"
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+extend-select = [
+    "UP", # pyupgrade
+    "I", # isort
+    "S", # flake8-bandit
+    "B", # flake8-bugbear
+    "C90", # McCabe complexity
+    "RUF"
+]
+
+[tool.ruff.format]
+quote-style = "single"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
