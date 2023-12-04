@@ -12,7 +12,8 @@
                            name="search" value="{{ user_search }}"
                            aria-label="Search character" aria-describedby="search-button"
                            hx-get="{% url 'starwars:index' %}" hx-indicator="#indicator"
-                           hx-target="#characters" hx-swap="outerHTML" hx-trigger="input changed delay:500ms, search">
+                           hx-target="#characters" hx-swap="outerHTML" hx-trigger="input changed delay:500ms, search"
+                           hx-push-url="true">
                     <button class="btn btn-outline-primary" type="button" id="search-button">Search</button>
                 </div>
             </form>
@@ -25,8 +26,7 @@
                 {% if forloop.last and characters.has_next %}
                     <section class="row m-md-2"
                              hx-get="{% url 'starwars:index' %}?page={{ characters.next_page_number }}"
-                             hx-trigger="revealed" hx-swap="afterend" hx-indicator="#indicator" hx-include="input"
-                             hx-push-url="true">
+                             hx-trigger="revealed" hx-swap="afterend" hx-indicator="#indicator" hx-include="input">
                         <div class="col-md-3"></div>
                         <div class="col-md-6">
                             <article class="card">

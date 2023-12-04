@@ -2,7 +2,83 @@
 {% block title %}{{ character.name }} bio{% endblock %}
 
 {% block main %}
-    <header class="row text-center">
+    <header class="row text-center my-md-4">
         <h1>{{ character.name }}</h1>
     </header>
+    <section class="row g-4">
+        <div class="col-sm-6 col-md-4">
+            <article class="card">
+                <div class="card-body">
+                    <h4 class="card-title text-primary">Mass</h4>
+                    <p class="card-text">{{ character.mass }} Kg</p>
+                </div>
+            </article>
+        </div>
+        <div class="col-sm-6 col-md-4">
+            <article class="card">
+                <div class="card-body">
+                    <h4 class="card-title text-primary">Height</h4>
+                    <p class="card-text">{{ character.height }} cm</p>
+                </div>
+            </article>
+        </div>
+        <div class="col-sm-6 col-md-4">
+            <article class="card">
+                <div class="card-body">
+                    <h4 class="card-title text-primary">Skin Color</h4>
+                    <p class="card-text">{{ character.skin_color }}</p>
+                </div>
+            </article>
+        </div>
+        <div class="col-sm-6 col-md-4">
+            <article class="card">
+                <div class="card-body">
+                    <h4 class="card-title text-primary">Hair Color</h4>
+                    <p class="card-text">{{ character.hair_color }}</p>
+                </div>
+            </article>
+        </div>
+        <div class="col-sm-6 col-md-4">
+            <article class="card">
+                <div class="card-body">
+                    <h4 class="card-title text-primary">Gender</h4>
+                    <p class="card-text">{{ character.gender }}</p>
+                </div>
+            </article>
+        </div>
+        <div class="col-sm-6 col-md-4">
+            <article class="card">
+                <div class="card-body">
+                    <h4 class="card-title text-primary">Birth Year</h4>
+                    <p class="card-text">{{ character.birth_year }}</p>
+                </div>
+            </article>
+        </div>
+    </section>
+    <h2 class="text-center my-md-4">Movies</h2>
+    {% for movie in movies %}
+        <section class="row my-4">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <article class="card">
+                    <div class="card-body">
+                        <h4 class="card-title text-primary text-center">{{ movie.title }}</h4>
+                        <div class="card-text">
+                            <h5>Episode ID</h5>
+                            <p>{{ movie.episode_id }}</p>
+                            <h5>Opening Crawl</h5>
+                            <p>{{ movie.opening_crawl }}</p>
+                            <h5>Release year</h5>
+                            <p>{{ movie.release_year }}</p>
+                            <h5>Director</h5>
+                            <p>{{ movie.director }}</p>
+                            <h5>Producers</h5>
+                            <p>{{ movie.producers }}</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="col-md-3"></div>
+        </section>
+    {% endfor %}
 {% endblock %}

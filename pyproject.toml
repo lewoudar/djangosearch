@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "djangosearch"
 version = "0.1.0"
-description = ""
+description = "Test project to learn django-watson"
 authors = ["le_woudar <rollandkev@yahoo.fr>"]
 readme = "README.md"
 

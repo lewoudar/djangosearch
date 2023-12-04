@@ -37,4 +37,5 @@ def list_characters(request: HtmxHttpRequest):
 
 def show_character(request: HtmxHttpRequest, pk: int):
     character = get_object_or_404(Character.objects.prefetch_related('movies'), pk=pk)
-    return render(request, 'starwars/show_character.html', {'character': character})
+    movies = character.movies.all()
+    return render(request, 'starwars/show_character.html', {'character': character, 'movies': movies})
